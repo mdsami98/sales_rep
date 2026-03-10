@@ -1,0 +1,1 @@
+export { RegisterResponseDto } from './register-response.dto';

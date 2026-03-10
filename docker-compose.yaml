@@ -1,0 +1,84 @@
+# version: '3.8'
+
+services:
+    # PostgreSQL Database
+    db:
+        image: postgres:latest
+        container_name: postgres_db
+        environment:
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: admin
+            POSTGRES_DB: sales_rep
+        ports:
+            - '5431:5432'
+        volumes:
+            - sales_rep:/var/lib/postgresql/data
+        networks:
+            - sales_rep
+    
+    redis:
+        image: redis:7-alpine
+        container_name: redis_cache
+        ports:
+            - '6379:6379'
+        volumes:
+            - redis_data:/data
+        command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+        healthcheck:
+            test: ['CMD', 'redis-cli', 'ping']
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        networks:
+            - sales_rep
+
+    # Adminer (Database Management)
+    adminer:
+        image: adminer:latest
+        container_name: adminer
+        ports:
+            - '8080:8080'
+        depends_on:
+            - db
+        networks:
+            - sales_rep
+
+    # Backend (NestJS)
+    backend:
+        container_name: sales_rep_backend
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - '3000:3000'
+        volumes:
+            - .:/usr/src/app
+            - /usr/src/app/node_modules
+        environment:
+            NODE_ENV: development
+            DATABASE_HOST: db
+            DATABASE_PORT: 5432
+            DATABASE_USER: admin
+            DATABASE_PASSWORD: admin
+            DATABASE_NAME: sales_rep
+            JWT_SECRET: your-super-secret-jwt-key-change-this
+            REDIS_HOST: redis
+            REDIS_PORT: 6379
+            REDIS_TTL: 60
+            REDIS_MAX_MEMORY: 256mb
+            JWT_EXPIRES_IN: 1d
+            JWT_REFRESH_SECRET: your-super-refresh-secret-key-change-this
+            JWT_REFRESH_EXPIRES_IN: 7d
+        depends_on:
+            - db
+        networks:
+            - sales_rep
+
+volumes:
+    sales_rep:
+    redis_data:
+
+# Networks
+networks:
+    sales_rep:
+        driver: bridge

@@ -20,6 +20,7 @@ export class RedisService {
   }
 
   async delPattern(pattern: string): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const cacheAny = this.cache as any;
     let keys: string[] = [];
 

@@ -6,6 +6,9 @@ import { QueryRetailersDto } from 'src/modules/retailer/dtos/retailers.dto';
 
 @Injectable()
 export class RetailersRepository extends BaseRepository<Retailer> {
+  createQueryBuilder(arg0: string) {
+    throw new Error('Method not implemented.');
+  }
   constructor(dataSource: DataSource) {
     super(Retailer, dataSource);
   }

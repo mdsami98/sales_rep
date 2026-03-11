@@ -106,4 +106,13 @@ export class BaseRepository<T extends ObjectLiteral> {
     const count = await this.repo.count({ where });
     return count > 0;
   }
+
+  async countByIds(ids: string[]): Promise<number> {
+    if (ids.length === 0) return 0;
+
+    return this.repo
+      .createQueryBuilder('entity')
+      .where('entity.id IN (:...ids)', { ids })
+      .getCount();
+  }
 }

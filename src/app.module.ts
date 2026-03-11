@@ -13,6 +13,7 @@ import { GeographyModule } from './modules/geography/geography.module';
 import redisConfig from './config/redis.config';
 import { RedisCacheModule } from './modules/redis/redis.module';
 import { RetailersModule } from './modules/retailer/retailer.module';
+import { AssignmentModule } from './modules/assignment/assignment.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { RetailersModule } from './modules/retailer/retailer.module';
     GeographyModule,
     UsersModule,
     RetailersModule,
+    AssignmentModule,
   ],
   controllers: [],
   providers: [

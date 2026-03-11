@@ -165,6 +165,7 @@ export class RetailersService {
       throw new BadRequestException('CSV file is required');
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     if (!file.originalname.endsWith('.csv')) {
       throw new BadRequestException('Only .csv files are allowed');
     }

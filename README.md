@@ -897,12 +897,14 @@ RET-0100002,Khan Super Store,01898765432,Chattogram,Agrabad,Delta Suppliers,Agra
 RET-0100003,Rahim Grocery,01567891234,Rajshahi,Boalia,Star Distribution Co.,Boalia - Zone 1,50,Route-3,New outlet
 ```
 
+> 💡 **Tip:** You can find a comprehensive test file for bulk upload in the root directory named **[retailers_import_sample.csv](./retailers_import_sample.csv)**.
+
 ### Import via cURL
 
 ```bash
 curl -X POST http://localhost:3000/api/retailers/import \
   -H "Authorization: Bearer $ADMIN_TOKEN" \
-  -F "file=@./sample-import.csv"
+  -F "file=@./retailers_import_sample.csv"
 ```
 
 ### Import Response (Success)
